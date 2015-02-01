@@ -17,6 +17,7 @@ class ViewController: UIViewController {
         // Initialize Parse
         Parse.setApplicationId("JAQo5BNVtoi5aKJ7asfrJzonyrbKGrZjCWEMt4yD", clientKey: "STBZzmihMUuWliag8zOz1z0yKm327HyNh9SbGHum")
         
+        /*
         // The `PFObject` class is a local representation of data persisted to the Parse cloud.
         // Create a class with the name "score"
         var score = PFObject(className: "score")
@@ -33,7 +34,28 @@ class ViewController: UIViewController {
                 println(error)
             }
         }
+        */
         
+        // Retrieving data from Parse
+        var query = PFQuery(className: "score")
+        query.getObjectInBackgroundWithId("mdflwmEREI", block: { (myScore:PFObject!, error:NSError!) -> Void in
+            if error == nil {
+                println(myScore.objectForKey("name") as NSString)
+                println(myScore["points"])
+                
+                // Updating data on Parse
+                myScore["name"] = "James"
+                myScore["points"] = 100
+                
+                // asynchronously save
+                myScore.saveInBackgroundWithBlock(nil)
+                // synchronously save
+                myScore.save()
+                
+            } else {
+                println(error)
+            }
+        })
     }
 
     override func didReceiveMemoryWarning() {
