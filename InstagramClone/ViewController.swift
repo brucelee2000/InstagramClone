@@ -8,120 +8,126 @@
 
 import UIKit
 
-class ViewController: UIViewController, UINavigationControllerDelegate, UIImagePickerControllerDelegate {
+enum Status {
+    case signUp
+    case login
+}
 
+class ViewController: UIViewController, UINavigationControllerDelegate, UIImagePickerControllerDelegate {
+    
+    var currentStatus = Status.signUp
+    
     var activityIndicator:UIActivityIndicatorView = UIActivityIndicatorView()
     
-    @IBOutlet weak var showImage: UIImageView!
+    @IBOutlet weak var username: UITextField!
     
-    @IBAction func pickImage(sender: UIButton) {
-        var imagePicker = UIImagePickerController()
+    @IBOutlet weak var password: UITextField!
+    
+    @IBOutlet weak var signUpLabel: UILabel!
+    
+    @IBOutlet weak var alreadyRegisteredLabel: UILabel!
+    
+    @IBOutlet weak var loginButtonLabel: UIButton!
+    
+    @IBAction func loginButtonPressed(sender: UIButton) {
+        if currentStatus == Status.signUp {
+            // When switch to login screen
+            currentStatus = Status.login
+            signUpLabel.text = "Use the form below to login"
+            signUpButtonLabel.setTitle("Log In", forState: UIControlState.Normal)
+            alreadyRegisteredLabel.text = "Not registered?"
+            loginButtonLabel.setTitle("Sign Up", forState: UIControlState.Normal)
+        } else {
+            // When switch to signUp screen
+            currentStatus = Status.signUp
+            signUpLabel.text = "Use the form below to sign up"
+            signUpButtonLabel.setTitle("Sign Up", forState: UIControlState.Normal)
+            alreadyRegisteredLabel.text = "Already registered?"
+            loginButtonLabel.setTitle("Log In", forState: UIControlState.Normal)
+        }
+    }
+    
+    @IBOutlet weak var signUpButtonLabel: UIButton!
+    
+    @IBAction func signUpButtonPressed(sender: UIButton) {
+        var error = ""
         
-        // Image delegate
-        imagePicker.delegate = self
-        // Image source - Either camera or camera roll
-        imagePicker.sourceType = UIImagePickerControllerSourceType.PhotoLibrary
-        //imagePicker.sourceType = UIImagePickerControllerSourceType.Camera
-        // Image editable
-        imagePicker.allowsEditing = false
-        // Excute this viewController (imagePicker)
-        self.presentViewController(imagePicker, animated: true) { () -> Void in
+        if username.text == "" || password.text == "" {
+            error = "Please enter username and password"
+        }
+        
+        if error != "" {
+            displayAlert(title: "Error in Form", error: error)
+        } else {
+            // Parse codes - Obtain user information
+            var user = PFUser()
+            user.username = username.text
+            user.password = password.text
+            
+            // Add spinner animation for showing verification delay
+            var activityRect = CGRectMake(0, 0, 50, 50)
+            activityIndicator = UIActivityIndicatorView(frame: activityRect)
+            
+            activityIndicator.center = self.view.center
+            activityIndicator.hidesWhenStopped = true
+            activityIndicator.activityIndicatorViewStyle = UIActivityIndicatorViewStyle.Gray
+            
+            view.addSubview(activityIndicator)
+            activityIndicator.startAnimating()
+            UIApplication.sharedApplication().beginIgnoringInteractionEvents()
+            
+            if currentStatus == Status.signUp {
+                
+                // Parse codes - user sign up
+                user.signUpInBackgroundWithBlock({ (signUpSucceeded:Bool!, signUpError:NSError!) -> Void in
+                    // Stop spinner animation after verification
+                    self.activityIndicator.stopAnimating()
+                    UIApplication.sharedApplication().endIgnoringInteractionEvents()
+                    
+                    if signUpError == nil {
+                        // Good signup
+                        println("Yesh Signed up")
+                    } else {
+                        if let errorString = signUpError.userInfo?["error"] as? NSString {
+                            error = errorString
+                        } else {
+                            error = "Somehing else is wrong..."
+                        }
+                        self.displayAlert(title: "Could not sign up", error: error)
+                    }
+                })
+                
+            } else {
+                
+                // Parse codes - user login
+                PFUser.logInWithUsernameInBackground(user.username, password: user.password, block: { (logInUser:PFUser!, logInError:NSError!) -> Void in
+                    // Stop spinner animation after verification
+                    self.activityIndicator.stopAnimating()
+                    UIApplication.sharedApplication().endIgnoringInteractionEvents()
+                    
+                    if logInUser != nil {
+                        // Good login
+                        println("Yesh logged in")
+                    } else {
+                        if let errorString = logInError.userInfo?["error"] as? NSString {
+                            error = errorString
+                        } else {
+                            error = "Somehing else is wrong..."
+                        }
+                        self.displayAlert(title: "Could not log in", error: error)
+                    }
+                })
+                
+            }
             
         }
         
-    }
-    
-    @IBAction func pauseButtonPressed(sender: UIButton) {
-        // Create a spinner
-        var activityRect = CGRectMake(0, 0, 50, 50)
-        activityIndicator = UIActivityIndicatorView(frame: activityRect)
-        
-        // Configure the spinner
-        activityIndicator.center = self.view.center
-        activityIndicator.hidesWhenStopped = true
-        activityIndicator.activityIndicatorViewStyle = UIActivityIndicatorViewStyle.Gray
-        
-        // Add spinner view
-        view.addSubview(activityIndicator)
-        
-        // Start animation
-        activityIndicator.startAnimating()
-        
-        // Stop user from interaction with other elements when App is showing the spinner
-        //UIApplication.sharedApplication().beginIgnoringInteractionEvents()
-    }
-
-    @IBAction func restoreButtonPressed(sender: UIButton) {
-        // Stop animation
-        activityIndicator.stopAnimating()
-        
-        // Restore the user interaction
-        //UIApplication.sharedApplication().endIgnoringInteractionEvents()
-        
-    }
-    
-    @IBAction func createAlertButtonPressed(sender: UIButton) {
-        // Create a alert
-        var alert = UIAlertController(title: "Hey There!", message: "Are you sure?", preferredStyle: UIAlertControllerStyle.Alert)
-        // Configure the alert action
-        var alertAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.Default) { (myAction) -> Void in
-            // Remove the alert message
-            self.dismissViewControllerAnimated(true, completion: nil)
-        }
-        alert.addAction(alertAction)
-        // Execute/show the alert
-        self.presentViewController(alert, animated: true, completion: nil)
     }
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
-        
-        // Initialize Parse
-        Parse.setApplicationId("JAQo5BNVtoi5aKJ7asfrJzonyrbKGrZjCWEMt4yD", clientKey: "STBZzmihMUuWliag8zOz1z0yKm327HyNh9SbGHum")
-        
-        /*
-        // The `PFObject` class is a local representation of data persisted to the Parse cloud.
-        // Create a class with the name "score"
-        var score = PFObject(className: "score")
-        
-        // Create a property "name" of class "score"
-        score.setObject("Rob", forKey: "name")
-        score.setObject(23, forKey: "points")
-        
-        // Save the class into the cloud
-        score.saveInBackgroundWithBlock { (success:Bool!, error:NSError!) -> Void in
-            if success == true {
-                println("Score created with ID: \(score.objectId)")
-            } else {
-                println(error)
-            }
-        }
-
-        
-        // Retrieving data from Parse
-        var query = PFQuery(className: "score")
-        query.getObjectInBackgroundWithId("mdflwmEREI", block: { (myScore:PFObject!, error:NSError!) -> Void in
-            if error == nil {
-                println(myScore.objectForKey("name") as NSString)
-                println(myScore["points"])
-                
-                // Updating data on Parse
-                myScore["name"] = "James"
-                myScore["points"] = 100
-                
-                // asynchronously save
-                myScore.saveInBackgroundWithBlock(nil)
-                // synchronously save
-                myScore.save()
-                
-            } else {
-                println(error)
-            }
-        })
-        */
-        
         
 
     }
@@ -131,12 +137,14 @@ class ViewController: UIViewController, UINavigationControllerDelegate, UIImageP
         // Dispose of any resources that can be recreated.
     }
 
-    // When image is selected
-    func imagePickerController(picker: UIImagePickerController!, didFinishPickingImage image: UIImage!, editingInfo: [NSObject : AnyObject]!) {
-        // Manually close ViewControll after selecting the picture
-        self.dismissViewControllerAnimated(true, completion: nil)
-        // Show the picture in the imageView
-        showImage.image = image
+    // Customize Alert message
+    func displayAlert(#title:String, error:String) {
+        var alert = UIAlertController(title: title, message: error, preferredStyle: UIAlertControllerStyle.Alert)
+        var alertAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: { (myAction) -> Void in
+            self.dismissViewControllerAnimated(true, completion: nil)
+        })
+        alert.addAction(alertAction)
+        self.presentViewController(alert, animated: true, completion: nil)
     }
 }
 
