@@ -17,7 +17,7 @@
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="VyW-ey-tyT">
-                                <rect key="frame" x="16" y="28" width="110" height="30"/>
+                                <rect key="frame" x="16" y="28" width="119" height="30"/>
                                 <state key="normal" title="Pick an Image">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
@@ -25,8 +25,35 @@
                                     <action selector="pickImage:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="cTB-xs-btw"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kgg-Qj-R1M">
+                                <rect key="frame" x="34" y="57" width="82" height="30"/>
+                                <state key="normal" title="Pause App">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="pauseButtonPressed:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="VZw-lt-fCD"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Zbi-5b-bui">
+                                <rect key="frame" x="140" y="57" width="102" height="30"/>
+                                <state key="normal" title="Restore App">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="restoreButtonPressed:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="YmV-lj-qeI"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Kag-Vn-usq">
+                                <rect key="frame" x="147" y="28" width="89" height="30"/>
+                                <state key="normal" title="Create Alert">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="createAlertButtonPressed:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="asO-t0-sku"/>
+                                </connections>
+                            </button>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="EUj-I6-S2C">
-                                <rect key="frame" x="16" y="77" width="308" height="421"/>
+                                <rect key="frame" x="16" y="107" width="308" height="421"/>
                             </imageView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
