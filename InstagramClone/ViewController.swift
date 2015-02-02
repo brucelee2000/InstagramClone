@@ -8,8 +8,30 @@
 
 import UIKit
 
-class ViewController: UIViewController {
+class ViewController: UIViewController, UINavigationControllerDelegate, UIImagePickerControllerDelegate {
 
+    @IBOutlet weak var showImage: UIImageView!
+    
+    @IBAction func pickImage(sender: UIButton) {
+        var imagePicker = UIImagePickerController()
+        
+        // Image delegate
+        imagePicker.delegate = self
+        // Image source - Either camera or camera roll
+        imagePicker.sourceType = UIImagePickerControllerSourceType.PhotoLibrary
+        //imagePicker.sourceType = UIImagePickerControllerSourceType.Camera
+        // Image editable
+        imagePicker.allowsEditing = false
+        // Excute this viewController (imagePicker)
+        self.presentViewController(imagePicker, animated: true) { () -> Void in
+            
+        }
+        
+    }
+    
+
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
@@ -34,7 +56,7 @@ class ViewController: UIViewController {
                 println(error)
             }
         }
-        */
+
         
         // Retrieving data from Parse
         var query = PFQuery(className: "score")
@@ -56,6 +78,10 @@ class ViewController: UIViewController {
                 println(error)
             }
         })
+        */
+        
+        
+
     }
 
     override func didReceiveMemoryWarning() {
@@ -63,6 +89,12 @@ class ViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
 
-
+    // When image is selected
+    func imagePickerController(picker: UIImagePickerController!, didFinishPickingImage image: UIImage!, editingInfo: [NSObject : AnyObject]!) {
+        // Manually close ViewControll after selecting the picture
+        self.dismissViewControllerAnimated(true, completion: nil)
+        // Show the picture in the imageView
+        showImage.image = image
+    }
 }
 
