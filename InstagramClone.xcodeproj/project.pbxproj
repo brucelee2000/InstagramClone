@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		A739C80D1A8710A700DCF7A6 /* userTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A739C80C1A8710A700DCF7A6 /* userTableViewController.swift */; };
 		A74A779C1A7EE6B6002FA6C5 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A74A779B1A7EE6B6002FA6C5 /* AppDelegate.swift */; };
 		A74A779F1A7EE6B6002FA6C5 /* InstagramClone.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = A74A779D1A7EE6B6002FA6C5 /* InstagramClone.xcdatamodeld */; };
 		A74A77A11A7EE6B6002FA6C5 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A74A77A01A7EE6B6002FA6C5 /* ViewController.swift */; };
@@ -40,6 +41,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		A739C80C1A8710A700DCF7A6 /* userTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = userTableViewController.swift; sourceTree = "<group>"; };
 		A74A77961A7EE6B6002FA6C5 /* InstagramClone.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = InstagramClone.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A74A779A1A7EE6B6002FA6C5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A74A779B1A7EE6B6002FA6C5 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -135,6 +137,7 @@
 				A74A77BF1A7EE73A002FA6C5 /* Parse.framework */,
 				A74A779B1A7EE6B6002FA6C5 /* AppDelegate.swift */,
 				A74A77A01A7EE6B6002FA6C5 /* ViewController.swift */,
+				A739C80C1A8710A700DCF7A6 /* userTableViewController.swift */,
 				A74A77A21A7EE6B6002FA6C5 /* Main.storyboard */,
 				A74A77A51A7EE6B6002FA6C5 /* Images.xcassets */,
 				A74A77A71A7EE6B6002FA6C5 /* LaunchScreen.xib */,
@@ -271,6 +274,7 @@
 			files = (
 				A74A77A11A7EE6B6002FA6C5 /* ViewController.swift in Sources */,
 				A74A779F1A7EE6B6002FA6C5 /* InstagramClone.xcdatamodeld in Sources */,
+				A739C80D1A8710A700DCF7A6 /* userTableViewController.swift in Sources */,
 				A74A779C1A7EE6B6002FA6C5 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -476,6 +480,7 @@
 				A74A77BA1A7EE6B6002FA6C5 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		A74A77BB1A7EE6B6002FA6C5 /* Build configuration list for PBXNativeTarget "InstagramCloneTests" */ = {
 			isa = XCConfigurationList;
@@ -484,6 +489,7 @@
 				A74A77BD1A7EE6B6002FA6C5 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 

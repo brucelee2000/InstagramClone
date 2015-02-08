@@ -129,7 +129,10 @@ class ViewController: UIViewController, UINavigationControllerDelegate, UIImageP
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         
-
+        // Gets the currently logged in user from disk and returns an instance of it.
+        // - signed in informaiton is saved on Parse
+        // - signed in information is retrieved every time the view is loaded
+        println(PFUser.currentUser())
     }
 
     override func didReceiveMemoryWarning() {
@@ -145,6 +148,12 @@ class ViewController: UIViewController, UINavigationControllerDelegate, UIImageP
         })
         alert.addAction(alertAction)
         self.presentViewController(alert, animated: true, completion: nil)
+    }
+    
+    override func viewDidAppear(animated: Bool) {
+        if PFUser.currentUser() != nil {
+            self.performSegueWithIdentifier("jumpToUserTable", sender: self)
+        }
     }
 }
 
