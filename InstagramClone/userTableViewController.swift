@@ -12,6 +12,8 @@ class userTableViewController: UITableViewController {
     
     var users:[String] = []
     var following:[Bool] = []
+    
+    var refresher = UIRefreshControl()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -22,43 +24,15 @@ class userTableViewController: UITableViewController {
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem()
 
+        // Update user table and relatioship
+        updateUsers()
         
-        
-        // Create a user query
-        var query = PFUser.query()
-        // Construct user array with the query
-        query.findObjectsInBackgroundWithBlock({ (objects:[AnyObject]!, error:NSError!) -> Void in
-            self.users.removeAll(keepCapacity: true)
-            for object in objects {
-                var user:PFUser = object as PFUser
-                var isFollowing:Bool
-                if user.username != PFUser.currentUser().username {
-                    self.users.append(user.username)
-                    
-                    isFollowing = false
-                    
-                    // Query follower/following relationship from the class "followers" in Parse
-                    var query = PFQuery(className: "followers")
-                    query.whereKey("follower", equalTo: PFUser.currentUser().username)
-                    query.whereKey("following", equalTo: user.username)
-                    query.findObjectsInBackgroundWithBlock({ (objects:[AnyObject]!, error:NSError!) -> Void in
-                        if error == nil {
-                            // The query is successful
-                            for object in objects {
-                                isFollowing = true
-                            }
-                        } else {
-                            println(error)
-                        }
-                        self.following.append(isFollowing)
-                        self.tableView.reloadData()
-                    })
-                }
-                
-
-            }
-            self.tableView.reloadData()
-        })
+        // Customize the showing message when pull to refresh
+        refresher.attributedTitle = NSAttributedString(string: "Pull to refresh WORDS!")
+        // Adds a target and action for a particular event (or events) to an internal dispatch table.
+        refresher.addTarget(self, action: "refreshAction", forControlEvents: UIControlEvents.ValueChanged)
+        // Add refresher as subview to current VC
+        self.tableView.addSubview(refresher)
     }
 
     override func didReceiveMemoryWarning() {
@@ -172,5 +146,51 @@ class userTableViewController: UITableViewController {
     }
     */
     
+    func updateUsers() {
+        // Create a user query
+        var query = PFUser.query()
+        // Construct user array with the query
+        query.findObjectsInBackgroundWithBlock({ (objects:[AnyObject]!, error:NSError!) -> Void in
+            self.users.removeAll(keepCapacity: true)
+            for object in objects {
+                var user:PFUser = object as PFUser
+                var isFollowing:Bool
+                if user.username != PFUser.currentUser().username {
+                    self.users.append(user.username)
+                    
+                    isFollowing = false
+                    
+                    // Query follower/following relationship from the class "followers" in Parse
+                    var query = PFQuery(className: "followers")
+                    query.whereKey("follower", equalTo: PFUser.currentUser().username)
+                    query.whereKey("following", equalTo: user.username)
+                    query.findObjectsInBackgroundWithBlock({ (objects:[AnyObject]!, error:NSError!) -> Void in
+                        if error == nil {
+                            // The query is successful
+                            for object in objects {
+                                isFollowing = true
+                            }
+                        } else {
+                            println(error)
+                        }
+                        self.following.append(isFollowing)
+                        self.tableView.reloadData()
+                        
+                        // Stop pull to refresh animation
+                        self.refresher.endRefreshing()
+                    })
+                }
+                
+                
+            }
+            //self.tableView.reloadData()
+        })
 
+    }
+    
+    // Function to be excuted for 'Pull to refresh"
+    func refreshAction() {
+        println("Refresh function is called")
+        updateUsers()
+    }
 }
