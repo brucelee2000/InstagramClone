@@ -28,6 +28,8 @@
 		A74A77D31A7EE7D9002FA6C5 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A74A77D21A7EE7D9002FA6C5 /* SystemConfiguration.framework */; };
 		A74A77D51A7EE7E7002FA6C5 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = A74A77D41A7EE7E7002FA6C5 /* libz.dylib */; };
 		A74A77D71A7EE7F7002FA6C5 /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = A74A77D61A7EE7F7002FA6C5 /* libsqlite3.dylib */; };
+		A77481851A8848B200C86F7C /* postViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A77481841A8848B200C86F7C /* postViewController.swift */; };
+		A77481871A885A1700C86F7C /* Blank_woman_placeholder.png in Resources */ = {isa = PBXBuildFile; fileRef = A77481861A885A1700C86F7C /* Blank_woman_placeholder.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -67,6 +69,8 @@
 		A74A77D41A7EE7E7002FA6C5 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
 		A74A77D61A7EE7F7002FA6C5 /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
 		A74A77D81A7EE878002FA6C5 /* InstagramClone-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "InstagramClone-Bridging-Header.h"; path = "InstagramClone/InstagramClone-Bridging-Header.h"; sourceTree = "<group>"; };
+		A77481841A8848B200C86F7C /* postViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = postViewController.swift; sourceTree = "<group>"; };
+		A77481861A885A1700C86F7C /* Blank_woman_placeholder.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Blank_woman_placeholder.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -138,7 +142,9 @@
 				A74A779B1A7EE6B6002FA6C5 /* AppDelegate.swift */,
 				A74A77A01A7EE6B6002FA6C5 /* ViewController.swift */,
 				A739C80C1A8710A700DCF7A6 /* userTableViewController.swift */,
+				A77481841A8848B200C86F7C /* postViewController.swift */,
 				A74A77A21A7EE6B6002FA6C5 /* Main.storyboard */,
+				A77481861A885A1700C86F7C /* Blank_woman_placeholder.png */,
 				A74A77A51A7EE6B6002FA6C5 /* Images.xcassets */,
 				A74A77A71A7EE6B6002FA6C5 /* LaunchScreen.xib */,
 				A74A779D1A7EE6B6002FA6C5 /* InstagramClone.xcdatamodeld */,
@@ -253,6 +259,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				A74A77A41A7EE6B6002FA6C5 /* Main.storyboard in Resources */,
+				A77481871A885A1700C86F7C /* Blank_woman_placeholder.png in Resources */,
 				A74A77A91A7EE6B6002FA6C5 /* LaunchScreen.xib in Resources */,
 				A74A77A61A7EE6B6002FA6C5 /* Images.xcassets in Resources */,
 			);
@@ -274,6 +281,7 @@
 			files = (
 				A74A77A11A7EE6B6002FA6C5 /* ViewController.swift in Sources */,
 				A74A779F1A7EE6B6002FA6C5 /* InstagramClone.xcdatamodeld in Sources */,
+				A77481851A8848B200C86F7C /* postViewController.swift in Sources */,
 				A739C80D1A8710A700DCF7A6 /* userTableViewController.swift in Sources */,
 				A74A779C1A7EE6B6002FA6C5 /* AppDelegate.swift in Sources */,
 			);
