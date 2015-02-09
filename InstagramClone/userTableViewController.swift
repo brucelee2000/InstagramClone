@@ -67,6 +67,8 @@ class userTableViewController: UITableViewController {
                     cell.accessoryType = UITableViewCellAccessoryType.Checkmark
                 }
             }
+        } else {
+            cell.accessoryType = UITableViewCellAccessoryType.None
         }
         
         return cell
@@ -152,6 +154,7 @@ class userTableViewController: UITableViewController {
         // Construct user array with the query
         query.findObjectsInBackgroundWithBlock({ (objects:[AnyObject]!, error:NSError!) -> Void in
             self.users.removeAll(keepCapacity: true)
+            self.following.removeAll(keepCapacity: false)
             for object in objects {
                 var user:PFUser = object as PFUser
                 var isFollowing:Bool
@@ -180,10 +183,8 @@ class userTableViewController: UITableViewController {
                         self.refresher.endRefreshing()
                     })
                 }
-                
-                
             }
-            //self.tableView.reloadData()
+            self.tableView.reloadData()
         })
 
     }
@@ -193,4 +194,6 @@ class userTableViewController: UITableViewController {
         println("Refresh function is called")
         updateUsers()
     }
+    
+    
 }
