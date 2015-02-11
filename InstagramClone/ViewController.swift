@@ -87,6 +87,8 @@ class ViewController: UIViewController, UINavigationControllerDelegate, UIImageP
                     if signUpError == nil {
                         // Good signup
                         println("Yesh Signed up")
+                        // Jump to user list view
+                        self.performSegueWithIdentifier("jumpToUserTable", sender: self)
                     } else {
                         if let errorString = signUpError.userInfo?["error"] as? NSString {
                             error = errorString
@@ -108,6 +110,8 @@ class ViewController: UIViewController, UINavigationControllerDelegate, UIImageP
                     if logInUser != nil {
                         // Good login
                         println("Yesh logged in")
+                        // Jump to user list view
+                        self.performSegueWithIdentifier("jumpToUserTable", sender: self)
                     } else {
                         if let errorString = logInError.userInfo?["error"] as? NSString {
                             error = errorString
@@ -154,6 +158,16 @@ class ViewController: UIViewController, UINavigationControllerDelegate, UIImageP
         if PFUser.currentUser() != nil {
             self.performSegueWithIdentifier("jumpToUserTable", sender: self)
         }
+    }
+    
+    // Hide navi bar
+    override func viewWillAppear(animated: Bool) {
+        self.navigationController?.navigationBarHidden = true
+    }
+    
+    // Show navi bar
+    override func viewWillDisappear(animated: Bool) {
+        self.navigationController?.navigationBarHidden = false
     }
 }
 

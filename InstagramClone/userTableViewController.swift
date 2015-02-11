@@ -195,5 +195,8 @@ class userTableViewController: UITableViewController {
         updateUsers()
     }
     
-    
+    // Hide bar item
+    override func viewWillAppear(animated: Bool) {
+        self.navigationController?.navigationItem.hidesBackButton = true
+    }
 }

@@ -95,6 +95,14 @@ class postViewController: UIViewController, UINavigationControllerDelegate, UIIm
         }
     }
     
+    @IBAction func logoutButtonPressed(sender: UIBarButtonItem) {
+        // Logout current user
+        PFUser.logOut()
+        
+        // Go back to initial VC
+        self.performSegueWithIdentifier("logoutSegue", sender: self)
+    }
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()

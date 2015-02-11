@@ -191,17 +191,30 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
+                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="zjd-7c-hmn">
+                                <rect key="frame" x="0.0" y="556" width="600" height="44"/>
+                                <items>
+                                    <barButtonItem title="Logout" id="zM5-yU-Nog">
+                                        <connections>
+                                            <action selector="logoutButtonPressed:" destination="WqF-5Y-Sqh" id="xaE-Ny-Inp"/>
+                                        </connections>
+                                    </barButtonItem>
+                                </items>
+                            </toolbar>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstItem="zjd-7c-hmn" firstAttribute="leading" secondItem="c0x-hm-eVD" secondAttribute="leading" id="IZ2-pz-HLo"/>
                             <constraint firstItem="taG-6t-k8V" firstAttribute="top" secondItem="GG1-G3-rqL" secondAttribute="bottom" constant="23" id="OZd-so-n0m"/>
                             <constraint firstAttribute="centerX" secondItem="co9-wA-9rR" secondAttribute="centerX" id="RER-iG-haY"/>
                             <constraint firstItem="Ug2-cs-AQa" firstAttribute="leading" secondItem="c0x-hm-eVD" secondAttribute="leading" constant="16" id="bAn-jC-SPU"/>
                             <constraint firstAttribute="centerX" secondItem="GG1-G3-rqL" secondAttribute="centerX" id="dYy-aB-XhQ"/>
                             <constraint firstAttribute="centerX" secondItem="taG-6t-k8V" secondAttribute="centerX" id="hP8-s5-Ili"/>
+                            <constraint firstItem="zjd-7c-hmn" firstAttribute="centerX" secondItem="co9-wA-9rR" secondAttribute="centerX" id="jp6-Qs-CKA"/>
                             <constraint firstItem="co9-wA-9rR" firstAttribute="top" secondItem="Ug2-cs-AQa" secondAttribute="bottom" constant="49" id="mFd-Tf-7Hq"/>
                             <constraint firstAttribute="trailing" secondItem="Ug2-cs-AQa" secondAttribute="trailing" constant="16" id="qMK-tv-bXl"/>
                             <constraint firstItem="GG1-G3-rqL" firstAttribute="top" secondItem="eXd-TY-Exs" secondAttribute="bottom" constant="8" id="sXr-fQ-iPW"/>
+                            <constraint firstItem="zjd-7c-hmn" firstAttribute="bottom" secondItem="XKn-Zt-xRY" secondAttribute="top" id="tQV-M0-AzK"/>
                             <constraint firstAttribute="centerX" secondItem="Ug2-cs-AQa" secondAttribute="centerX" id="uqk-FA-Qbf"/>
                             <constraint firstItem="Ug2-cs-AQa" firstAttribute="top" secondItem="taG-6t-k8V" secondAttribute="bottom" constant="22" id="x4Y-gd-TQg"/>
                         </constraints>
@@ -209,6 +222,7 @@
                     <connections>
                         <outlet property="imageToPost" destination="GG1-G3-rqL" id="Qwr-bO-ayV"/>
                         <outlet property="shareText" destination="Ug2-cs-AQa" id="Oor-ld-HGk"/>
+                        <segue destination="vXZ-lx-hvc" kind="show" identifier="logoutSegue" id="s6R-JL-1Su"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="DWT-gR-87q" userLabel="First Responder" sceneMemberID="firstResponder"/>
