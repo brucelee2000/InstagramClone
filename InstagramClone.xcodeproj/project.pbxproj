@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		A739C80D1A8710A700DCF7A6 /* userTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A739C80C1A8710A700DCF7A6 /* userTableViewController.swift */; };
+		A73CAC961A8B287A00EEE8A2 /* feedTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A73CAC951A8B287A00EEE8A2 /* feedTableViewController.swift */; };
+		A73CAC981A8B298300EEE8A2 /* FeedTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A73CAC971A8B298300EEE8A2 /* FeedTableViewCell.swift */; };
 		A74A779C1A7EE6B6002FA6C5 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A74A779B1A7EE6B6002FA6C5 /* AppDelegate.swift */; };
 		A74A779F1A7EE6B6002FA6C5 /* InstagramClone.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = A74A779D1A7EE6B6002FA6C5 /* InstagramClone.xcdatamodeld */; };
 		A74A77A11A7EE6B6002FA6C5 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A74A77A01A7EE6B6002FA6C5 /* ViewController.swift */; };
@@ -44,6 +46,8 @@
 
 /* Begin PBXFileReference section */
 		A739C80C1A8710A700DCF7A6 /* userTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = userTableViewController.swift; sourceTree = "<group>"; };
+		A73CAC951A8B287A00EEE8A2 /* feedTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = feedTableViewController.swift; sourceTree = "<group>"; };
+		A73CAC971A8B298300EEE8A2 /* FeedTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeedTableViewCell.swift; sourceTree = "<group>"; };
 		A74A77961A7EE6B6002FA6C5 /* InstagramClone.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = InstagramClone.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A74A779A1A7EE6B6002FA6C5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A74A779B1A7EE6B6002FA6C5 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -142,6 +146,8 @@
 				A74A779B1A7EE6B6002FA6C5 /* AppDelegate.swift */,
 				A74A77A01A7EE6B6002FA6C5 /* ViewController.swift */,
 				A739C80C1A8710A700DCF7A6 /* userTableViewController.swift */,
+				A73CAC951A8B287A00EEE8A2 /* feedTableViewController.swift */,
+				A73CAC971A8B298300EEE8A2 /* FeedTableViewCell.swift */,
 				A77481841A8848B200C86F7C /* postViewController.swift */,
 				A74A77A21A7EE6B6002FA6C5 /* Main.storyboard */,
 				A77481861A885A1700C86F7C /* Blank_woman_placeholder.png */,
@@ -281,7 +287,9 @@
 			files = (
 				A74A77A11A7EE6B6002FA6C5 /* ViewController.swift in Sources */,
 				A74A779F1A7EE6B6002FA6C5 /* InstagramClone.xcdatamodeld in Sources */,
+				A73CAC981A8B298300EEE8A2 /* FeedTableViewCell.swift in Sources */,
 				A77481851A8848B200C86F7C /* postViewController.swift in Sources */,
+				A73CAC961A8B287A00EEE8A2 /* feedTableViewController.swift in Sources */,
 				A739C80D1A8710A700DCF7A6 /* userTableViewController.swift in Sources */,
 				A74A779C1A7EE6B6002FA6C5 /* AppDelegate.swift in Sources */,
 			);
