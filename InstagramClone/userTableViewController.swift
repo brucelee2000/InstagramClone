@@ -61,12 +61,8 @@ class userTableViewController: UITableViewController {
         // Configure the cell...
         cell.textLabel?.text = users[indexPath.row]
         
-        if (!following.isEmpty) {
-            if following.count > indexPath.row {
-                if following[indexPath.row] {
-                    cell.accessoryType = UITableViewCellAccessoryType.Checkmark
-                }
-            }
+        if following[indexPath.row] {
+            cell.accessoryType = UITableViewCellAccessoryType.Checkmark
         } else {
             cell.accessoryType = UITableViewCellAccessoryType.None
         }
@@ -154,13 +150,13 @@ class userTableViewController: UITableViewController {
         // Construct user array with the query
         query.findObjectsInBackgroundWithBlock({ (objects:[AnyObject]!, error:NSError!) -> Void in
             self.users.removeAll(keepCapacity: true)
-            self.following.removeAll(keepCapacity: false)
+            self.following.removeAll(keepCapacity: true)
+            
             for object in objects {
                 var user:PFUser = object as PFUser
                 var isFollowing:Bool
                 if user.username != PFUser.currentUser().username {
-                    self.users.append(user.username)
-                    
+                   
                     isFollowing = false
                     
                     // Query follower/following relationship from the class "followers" in Parse
@@ -176,6 +172,7 @@ class userTableViewController: UITableViewController {
                         } else {
                             println(error)
                         }
+                        self.users.append(user.username)
                         self.following.append(isFollowing)
                         self.tableView.reloadData()
                         
@@ -184,7 +181,7 @@ class userTableViewController: UITableViewController {
                     })
                 }
             }
-            self.tableView.reloadData()
+
         })
 
     }
@@ -197,6 +194,6 @@ class userTableViewController: UITableViewController {
     
     // Hide bar item
     override func viewWillAppear(animated: Bool) {
-        self.navigationController?.navigationItem.hidesBackButton = true
+        //self.navigationController?.navigationItem.hidesBackButton = true
     }
 }

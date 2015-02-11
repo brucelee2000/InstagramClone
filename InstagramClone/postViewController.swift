@@ -137,7 +137,7 @@ class postViewController: UIViewController, UINavigationControllerDelegate, UIIm
     func displayAlert(#title:String, error:String) {
         var alert = UIAlertController(title: title, message: error, preferredStyle: UIAlertControllerStyle.Alert)
         var alertAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: { (myAction) -> Void in
-            self.dismissViewControllerAnimated(true, completion: nil)
+            //self.dismissViewControllerAnimated(true, completion: nil)
         })
         alert.addAction(alertAction)
         self.presentViewController(alert, animated: true, completion: nil)
