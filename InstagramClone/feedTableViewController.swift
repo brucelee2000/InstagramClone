@@ -55,28 +55,6 @@ class feedTableViewController: UITableViewController {
             }
         }
         
-        /*
-        // Create Parse query to download all required data
-        var query = PFQuery(className: "Post")
-        query.findObjectsInBackgroundWithBlock { (objects:[AnyObject]!, error:NSError!) -> Void in
-            if error == nil {
-                // Query successfully
-                println("Retrievd \(objects.count) posts")
-                for object in objects {
-                    self.postedTitles.append(object["title"] as String)
-                    self.postedUsers.append(object["username"] as String)
-                    // Note: Parse does not download actual image content by default
-                    self.postedImageFiles.append(object["imageFile"] as PFFile)
-                    
-                    // Reload data after finish downloading
-                    self.tableView.reloadData()
-                }
-            } else {
-                // Query failed
-                println(error)            }
-        }
-        */
-
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
 

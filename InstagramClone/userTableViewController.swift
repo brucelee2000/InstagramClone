@@ -172,6 +172,7 @@ class userTableViewController: UITableViewController {
                         } else {
                             println(error)
                         }
+                        // Add/modify data at the same time due to async query
                         self.users.append(user.username)
                         self.following.append(isFollowing)
                         self.tableView.reloadData()
@@ -192,8 +193,10 @@ class userTableViewController: UITableViewController {
         updateUsers()
     }
     
-    // Hide bar item
+    /*
+    // Hide bar item if necessary
     override func viewWillAppear(animated: Bool) {
-        //self.navigationController?.navigationItem.hidesBackButton = true
+        self.navigationController?.navigationItem.hidesBackButton = true
     }
+    */
 }
