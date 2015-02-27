@@ -37,8 +37,83 @@ Parse class creation and save
             }
         }
       
-Parse data modification and retrieving
--------------------------------------
+Parse Retrieves General Data and Modifications
+----------------------------------------------
+Find objects with certian condition by *findObjectsInBackgroundWithBlock()*
+
+* **Step 1. Create a query**
+
+        // Create a user query
+        var query = PFUser.query()
+        
+* **Step 2. Setup filters by *whereKey()*.**      
+
+        query.whereKey("follower", equalTo: PFUser.currentUser().username)
+        query.whereKey("following", equalTo: user.username)
+                    
+* **Step 3. Excute the query**
+
+        // Construct user array with the query
+        query.findObjectsInBackgroundWithBlock({ (objects:[AnyObject]!, error:NSError!) -> Void in
+            self.users.removeAll(keepCapacity: true)
+            self.following.removeAll(keepCapacity: true)
+            ...
+        })
+            
+* **Step 4. Process the results from query one by one**            
+            
+            ...
+            for object in objects {
+                var user:PFUser = object as PFUser
+                var isFollowing:Bool
+                if user.username != PFUser.currentUser().username {
+                   ...
+                }
+                ...
+            }
+            ...
+* **Overall example**
+
+        // Create a user query
+        var query = PFUser.query()
+        // Construct user array with the query
+        query.findObjectsInBackgroundWithBlock({ (objects:[AnyObject]!, error:NSError!) -> Void in
+            self.users.removeAll(keepCapacity: true)
+            self.following.removeAll(keepCapacity: true)
+            
+            for object in objects {
+                var user:PFUser = object as PFUser
+                var isFollowing:Bool
+                if user.username != PFUser.currentUser().username {
+                   
+                    isFollowing = false
+                    
+                    // Query follower/following relationship from the class "followers" in Parse
+                    var query = PFQuery(className: "followers")
+                    query.whereKey("follower", equalTo: PFUser.currentUser().username)
+                    query.whereKey("following", equalTo: user.username)
+                    query.findObjectsInBackgroundWithBlock({ (objects:[AnyObject]!, error:NSError!) -> Void in
+                        if error == nil {
+                            // The query is successful
+                            for object in objects {
+                                isFollowing = true
+                            }
+                        } else {
+                            println(error)
+                        }
+                        self.users.append(user.username)
+                        self.following.append(isFollowing)
+                        self.tableView.reloadData()
+                        
+                        // Stop pull to refresh animation
+                        self.refresher.endRefreshing()
+                    })
+                }
+            }
+        })
+
+Parse Retrieves Specific Data and Modificatoin
+----------------------------------------------
 * **Retrieve data by its ID with *getObjectInBackgroundWithId()* from Parse**
 
         // Retrieving data from Parse
@@ -61,6 +136,142 @@ Parse data modification and retrieving
                 println(error)
             }
         })
+
+Parse Retrieves and Shows Image Data
+------------------------------------
+* **Step 0. Query and retrieve image data**
+
+        var queryFollowingUsers = PFQuery(className: "followers")
+        queryFollowingUsers.whereKey("follower", equalTo: PFUser.currentUser().username)
+        
+        queryFollowingUsers.findObjectsInBackgroundWithBlock { (objects:[AnyObject]!, error:NSError!) -> Void in
+            if error == nil {
+                
+                for object in objects {
+                    let followingUser = object["following"] as String
+                    
+                    // Create Parse query to download all required data
+                    var query = PFQuery(className: "Post")
+                    query.whereKey("username", equalTo: followingUser)
+                    query.findObjectsInBackgroundWithBlock { (objects:[AnyObject]!, error:NSError!) -> Void in
+                        if error == nil {
+                            // Query successfully
+                            println("Retrievd \(objects.count) posts")
+                            
+                            for object in objects {
+                                self.postedTitles.append(object["title"] as String)
+                                self.postedUsers.append(object["username"] as String)
+                                
+                                // Note: Parse does not download actual image content by default
+                                self.postedImageFiles.append(object["imageFile"] as PFFile)
+                                
+                                // Reload data after finish downloading
+                                self.tableView.reloadData()
+                            }
+                        } else {
+                            // Query failed
+                            println(error)            
+                        }
+                    }
+                }
+            } else {
+                println(error)
+            }
+        }
+        
+* **Step 1. Show retrieved image data in real time**
+
+        override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+            let myFeedCell = tableView.dequeueReusableCellWithIdentifier("myFeedCell", forIndexPath: indexPath) as FeedTableViewCell
+            
+            // Configure the cell...
+            myFeedCell.postedTitle.text = postedTitles[indexPath.row]
+            myFeedCell.postedUser.text = postedUsers[indexPath.row]
+            
+            // Retrieve image from Parse in real time
+            postedImageFiles[indexPath.row].getDataInBackgroundWithBlock { (imageData:NSData!, error:NSError!) -> Void in
+                if error == nil {
+                    // Retrieve image OK
+                    let image = UIImage(data: imageData)
+                    myFeedCell.postedImage.image = image
+                }
+            }
+            
+            return myFeedCell
+        }
+
+Parse User Sign-up, Log-in, and Log-out
+---------------------------------------
+* **Step 0. Obtain username and password**
+
+        // Parse codes - Obtain user information
+        var user = PFUser()
+        user.username = username.text
+        user.password = password.text
+        
+* **Step 1. Sign-up or Log-in**
+
+        // Parse codes - user sign up
+        user.signUpInBackgroundWithBlock({ (signUpSucceeded:Bool!, signUpError:NSError!) -> Void in
+            // Stop spinner animation after verification
+            self.activityIndicator.stopAnimating()
+            UIApplication.sharedApplication().endIgnoringInteractionEvents()
+            
+            if signUpError == nil {
+                // Good signup
+                println("Yesh Signed up")
+            } else {
+                if let errorString = signUpError.userInfo?["error"] as? NSString {
+                    error = errorString
+                } else {
+                    error = "Somehing else is wrong..."
+                }
+                self.displayAlert(title: "Could not sign up", error: error)
+            }
+        })
+        
+        // Parse codes - user login
+        PFUser.logInWithUsernameInBackground(user.username, password: user.password, block: { (logInUser:PFUser!, logInError:NSError!) -> Void in
+            // Stop spinner animation after verification
+            self.activityIndicator.stopAnimating()
+            UIApplication.sharedApplication().endIgnoringInteractionEvents()
+            
+            if logInUser != nil {
+                // Good login
+                println("Yesh logged in")
+            } else {
+                if let errorString = logInError.userInfo?["error"] as? NSString {
+                    error = errorString
+                } else {
+                    error = "Somehing else is wrong..."
+                }
+                self.displayAlert(title: "Could not log in", error: error)
+            }
+        }) 
+        
+* **Step 2. Logout**
+
+        @IBAction func logoutButtonPressed(sender: UIBarButtonItem) {
+            // Logout current user
+            PFUser.logOut()
+            
+            // Go back to initial VC
+            self.performSegueWithIdentifier("logoutSegue", sender: self)
+        }
+
+
+Parse Check User Login Status
+-----------------------------
+        // Gets the currently logged in user from disk and returns an instance of it.
+        // - signed in informaiton is saved on Parse
+        // - signed in information is retrieved every time the view is loaded
+        println(PFUser.currentUser())
+    
+        override func viewDidAppear(animated: Bool) {
+            if PFUser.currentUser() != nil {
+                self.performSegueWithIdentifier("jumpToUserTable", sender: self)
+            }
+        }        
 
 Obtain images from Photo library or Camera
 ------------------------------------------
@@ -136,6 +347,80 @@ Spinner is used to simulate loading/reading/time consuming work
         
         // Restore the user interaction
         UIApplication.sharedApplication().endIgnoringInteractionEvents()
-        
-        
 
+Table Cell Accessory Type
+-------------------------
+Types: Checkmark/None/Disclosure...
+
+* **Step 1. Show accessory of the cell**
+
+        override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+            let cell = tableView.dequeueReusableCellWithIdentifier("myCell", forIndexPath: indexPath) as UITableViewCell
+    
+            // Configure the cell...
+            cell.textLabel?.text = users[indexPath.row]
+            
+            if following[indexPath.row] {
+                cell.accessoryType = UITableViewCellAccessoryType.Checkmark
+            } else {
+                cell.accessoryType = UITableViewCellAccessoryType.None
+            }
+            
+            return cell
+        }   
+    
+* **Step 2. Change accessory when selecting the cell**
+
+        override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+            // Create a tick for each row
+            let cell = tableView.cellForRowAtIndexPath(indexPath)! as UITableViewCell
+            if cell.accessoryType == UITableViewCellAccessoryType.Checkmark {
+                cell.accessoryType = UITableViewCellAccessoryType.None
+                // Submit deselct follower/following relationship to the class "followers" in Parse
+                var query = PFQuery(className: "followers")
+                query.whereKey("follower", equalTo: PFUser.currentUser().username)
+                query.whereKey("following", equalTo: cell.textLabel?.text)
+                query.findObjectsInBackgroundWithBlock({ (objects:[AnyObject]!, error:NSError!) -> Void in
+                    if error == nil {
+                        // The query is successful and delete target row in Parse
+                        for object in objects {
+                            object.deleteInBackgroundWithBlock(nil)
+                        }
+                    } else {
+                        println(error)
+                    }
+                })
+            } else {
+                cell.accessoryType = UITableViewCellAccessoryType.Checkmark
+                // Submit new follower/following relationship to the class "followers" in Parse
+                var following = PFObject(className: "followers")
+                following["following"] = cell.textLabel?.text
+                following["follower"] = PFUser.currentUser().username
+                following.saveInBackgroundWithBlock(nil)
+            }
+        }
+        
+Pull to Refresh Function
+------------------------
+    var refresher = UIRefreshControl()
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        ...
+        // Customize the showing message when pull to refresh
+        refresher.attributedTitle = NSAttributedString(string: "Pull to refresh WORDS!")
+        
+        // Adds a target and action for a particular event (or events) to an internal dispatch table.
+        refresher.addTarget(self, action: "refreshAction", forControlEvents: UIControlEvents.ValueChanged)
+        
+        // Add refresher as subview to current VC
+        self.tableView.addSubview(refresher)
+    }    
+
+    // Function to be excuted for 'Pull to refresh"
+    func refreshAction() {
+        println("Refresh function is called")
+        updateUsers()
+    }
+    
+    
