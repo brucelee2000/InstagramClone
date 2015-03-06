@@ -50,8 +50,13 @@ Find objects with certian condition by *findObjectsInBackgroundWithBlock()*
 
         query.whereKey("follower", equalTo: PFUser.currentUser().username)
         query.whereKey("following", equalTo: user.username)
+        
+* **Step 3. Limite the number of results after query is run
+
+        // Limit what could be lots of points
+        query.limit = 10
                     
-* **Step 3. Excute the query**
+* **Step 4. Excute the query**
 
         // Construct user array with the query
         query.findObjectsInBackgroundWithBlock({ (objects:[AnyObject]!, error:NSError!) -> Void in
@@ -60,7 +65,7 @@ Find objects with certian condition by *findObjectsInBackgroundWithBlock()*
             ...
         })
             
-* **Step 4. Process the results from query one by one**            
+* **Step 5. Process the results from query one by one**            
             
             ...
             for object in objects {
