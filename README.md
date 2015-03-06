@@ -33,7 +33,7 @@ Details are here http://codewithchris.com/using-parse-swift-xcode-6/
     
             #import <Parse/Parse.h>
     
-* **Step 2. Initialize Parse in *AppDelegate* file**
+* **Step 3. Initialize Parse in *AppDelegate* file**
 
         // Initialize Parse
         Parse.setApplicationId("JAQo5BNVtoi5aKJ7asfrJzonyrbKGrZjCWEMt4yD", clientKey: "STBZzmihMUuWliag8zOz1z0yKm327HyNh9SbGHum")
@@ -385,11 +385,11 @@ Table Cell Accessory Type
 -------------------------
 Types: Checkmark/None/Disclosure/Detail Disclosure...
 
--- Disclosure: just an indicator and no response/action when tapping it
++ **Disclosure**: just an indicator and no response/action when tapping it
 
--- Detail disclosure: action is associated with tapping on it
++ **Detail disclosure**: action is associated with tapping on it
 
--- Checkmark: just an indicator
++ **Checkmark**: just an indicator
 
 * **Step 1. Show accessory of the cell**
 
