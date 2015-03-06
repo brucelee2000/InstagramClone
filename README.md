@@ -79,7 +79,7 @@ Find objects with certian condition by *findObjectsInBackgroundWithBlock()*
         query.whereKey("follower", equalTo: PFUser.currentUser().username)
         query.whereKey("following", equalTo: user.username)
         
-* **Step 3. Limite the number of results after query is run
+* **Step 3. Limite the number of results after query is run**
 
         // Limit what could be lots of points
         query.limit = 10
