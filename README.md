@@ -350,7 +350,13 @@ Spinner is used to simulate loading/reading/time consuming work
 
 Table Cell Accessory Type
 -------------------------
-Types: Checkmark/None/Disclosure...
+Types: Checkmark/None/Disclosure/Detail Disclosure...
+
+-- Disclosure: just an indicator and no response/action when tapping it
+
+-- Detail disclosure: action is associated with tapping on it
+
+-- Checkmark: just an indicator
 
 * **Step 1. Show accessory of the cell**
 
@@ -369,8 +375,9 @@ Types: Checkmark/None/Disclosure...
             return cell
         }   
     
-* **Step 2. Change accessory when selecting the cell**
+* **Step 2. Action when electing the cell**
 
+        // Change accessory type when selecting the cell
         override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
             // Create a tick for each row
             let cell = tableView.cellForRowAtIndexPath(indexPath)! as UITableViewCell
@@ -399,6 +406,15 @@ Types: Checkmark/None/Disclosure...
                 following.saveInBackgroundWithBlock(nil)
             }
         }
+        
+* **Step 3. Action when tapping cell detail discloure**
+
+        // Call in-app email client when tapping cell detail disclosure
+        override func tableView(tableView: UITableView, accessoryButtonTappedForRowWithIndexPath indexPath: NSIndexPath) {
+            indexPathForTapped = indexPath
+            performSegueWithIdentifier("sendMail", sender: self)
+        }
+
         
 Pull to Refresh Function
 ------------------------
