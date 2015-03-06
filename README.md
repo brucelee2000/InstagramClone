@@ -1,9 +1,37 @@
 # InstagramClone
 Parse setup and initialization
 ------------------------------
+Details are here http://codewithchris.com/using-parse-swift-xcode-6/
 * **Step 1. Install Parse iOS SDK**
     
     Download from Parse website and drag it into project
+    * Parse.framework
+    * Bolts.framework
+
+    Link other required framework/library
+    * AudioToolbox.framework
+    * CFNetwork.framework
+    * CoreGraphics.framework
+    * CoreLocation.framework
+    * libz.dylib
+    * MobileCoreServices.framework
+    * QuartzCore.framework
+    * Security.framework
+    * StoreKit.framework
+    * SystemConfiguration.framework
+    * libsqlite3.dylib
+    
+* **Step 2. Import Parse into Swift with bridging header**
+    
+    * Create a new File (File -> New -> File) of type Objective-C File.
+    
+    * It will prompt you if you would like to configure an Obj-C Bridging Header. Click “Yes"
+    
+    * Delete generated .m file and keep generated .h file
+    
+    * Add this code to the YourProjectName-Bridging-Header.h
+    
+            #import <Parse/Parse.h>
     
 * **Step 2. Initialize Parse in *AppDelegate* file**
 
