@@ -170,6 +170,69 @@ Parse Retrieves Specific Data and Modificatoin
             }
         })
 
+Parse Image Data Saving
+-----------------------
+* **Method 1: directly uploading UIImage as NSData to Parse (size limitation is 128K)**
+
+        var post = PFObject(className: "Post")
+        post["title"] = shareText.text
+        post["username"] = PFUser.currentUser().username
+        
+        // Return image NSData for the specified image in PNG format
+        let imageData = UIImagePNGRepresentation(self.imageToPost.image)
+        
+        // Save image data in the post
+        post["image"] = imageData
+        
+        // Save image data on the Parse server
+        post.saveInBackgroundWithBlock({ (saveImageSuccess:Bool!, saveImageError:NSError!) -> Void in
+                
+            self.activityIndicator.stopAnimating()
+            UIApplication.sharedApplication().endIgnoringInteractionEvents()
+            
+            if saveImageSuccess == false {
+                self.displayAlert(title: "Eroor", error: saveImageError.localizedDescription)
+            } else {
+                self.displayAlert(title: "Sucess", error: "Image has been posted successfully")
+            }
+                        
+            // Initialization
+            self.initializeView()
+        })
+
+* **Method 2: Upload image as NSData in a binary file by *PFFile()*.**
+
+        var post = PFObject(className: "Post")
+        post["title"] = shareText.text
+        post["username"] = PFUser.currentUser().username
+        
+        // Return image NSData for the specified image in PNG format
+        let imageData = UIImagePNGRepresentation(self.imageToPost.image)
+        // let imageData = UIImageJPEGRepresentation(self.imageToPost.image, 0.5)           // 3G connection may be 0.01 to lower uploaded image size
+        
+        // `PFFile` representes a file of binary data stored on the Parse servers
+        let imageFile = PFFile(name: "image.png", data: imageData)
+        
+        // Save image data in the post
+        post["imageFile"] = imageFile
+        
+        // Save image data on the Parse server
+        post.saveInBackgroundWithBlock({ (saveImageSuccess:Bool!, saveImageError:NSError!) -> Void in
+                
+            self.activityIndicator.stopAnimating()
+            UIApplication.sharedApplication().endIgnoringInteractionEvents()
+            
+            if saveImageSuccess == false {
+                self.displayAlert(title: "Eroor", error: saveImageError.localizedDescription)
+            } else {
+                self.displayAlert(title: "Sucess", error: "Image has been posted successfully")
+            }
+                        
+            // Initialization
+            self.initializeView()
+        })
+        
+
 Parse Retrieves and Shows Image Data
 ------------------------------------
 * **Step 0. Query and retrieve image data**
